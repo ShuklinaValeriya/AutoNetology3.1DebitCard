@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
@@ -22,7 +23,15 @@ public class DebitCardTest {
     public static void setUp(){
         System.setProperty("webdriver.chrome.driver", "driver/win/chromedriver.exe");
     }
-
+    @BeforeEach
+    public void setUp1() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
+        driver.get("http://localhost:9999");
+    }
     @BeforeEach
     void setUp2(){
         driver = new ChromeDriver();
@@ -41,13 +50,6 @@ public class DebitCardTest {
         String text = driver.findElement(By.className("paragraph_theme_alfa-on-white")).getText();
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", text.trim());
     }
-
-
-    
-    
-    
-    
-
     @AfterEach
     public void close(){
         driver.quit();
